@@ -34,6 +34,11 @@ router.get("/:isbn", async function (req, res, next) {
 
 router.post("/", async function (req, res, next) {
   try {
+    const result = jsonschema.validate(req.body, bookSchema);
+    if (!result.valid) {
+      let errors = result.errors.map(e => e.stack);
+      throw new ExpressError(errors, 400);
+    }
     const book = await Book.create(req.body);
     return res.status(201).json({ book });
   } catch (err) {
