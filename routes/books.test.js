@@ -1,7 +1,7 @@
 /** Integration tests for books route */
 
 
-process.env.NODE_ENV = "test"
+process.env.NODE_ENV === "test";
 
 const request = require("supertest");
 
@@ -145,5 +145,5 @@ afterEach(async function () {
 
 
 afterAll(async function () {
-  await db.end()
+  await db.end();
 });
