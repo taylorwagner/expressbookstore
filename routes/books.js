@@ -50,8 +50,16 @@ router.post("/", async function (req, res, next) {
 
 router.put("/:isbn", async function (req, res, next) {
   try {
+    let { isbn } = req.params;
+    let { amazon_url, author, language, pages, publisher, title, year } = req.body;
+    let updatedBook = { ibsn, amazon_url, author, language, pages, publisher, title, year };
+    const result = jsonschema.validate(updatedBook, bookSchema);
+    if(!result.valid) {
+      let errors = result.errors.map(e => e.stack);
+      throw new ExpressError(errors, 400);
+    }
     const book = await Book.update(req.params.isbn, req.body);
-    return res.json({ book });
+    return res.status(200).json({ book });
   } catch (err) {
     return next(err);
   }
