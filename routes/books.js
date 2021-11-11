@@ -3,6 +3,10 @@ const Book = require("../models/book");
 
 const router = new express.Router();
 
+const jsonschema = require("jsonschema");
+const bookSchema = require("../schemas/book.json");
+const { json } = require("express");
+const ExpressError = require("../expressError");
 
 /** GET / => {books: [book, ...]}  */
 
